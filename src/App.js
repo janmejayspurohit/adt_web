@@ -16,7 +16,7 @@ import { useAuth } from "./services/auth";
 import { ResponseInterceptor } from "./utils/ResponseInterceptor";
 import Landing from "./components/pages/landingpage/Landing";
 import api from "./services/api";
-import Layout from "./components/common/Layout";
+import { Home, Reports } from "./components/pages/home";
 
 const App = () => {
   const { token } = useAuth();
@@ -31,7 +31,8 @@ const App = () => {
         <Route path="register" element={<UserRegistration />} />
         <Route path="reset-credentials" element={<ResetCredentials />} />
 
-        <Route path="home" element={<Layout>Home</Layout>} />
+        <Route path="home" element={<Home />} />
+        <Route path="order-count-report" element={<Reports />} />
 
         <Route path="*" element={<Lost />} />
       </Routes>

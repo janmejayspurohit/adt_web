@@ -7,6 +7,11 @@ const menu = [
     link: "/home",
     icon: <AiFillHome color="white" />,
   },
+  {
+    name: "Order Counts",
+    link: "/order-count-report",
+    icon: <AiFillHome color="white" />,
+  },
 ];
 
 export default menu;
