@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { InputField, PasswordField } from "../../formik";
@@ -33,7 +33,7 @@ const Login = () => {
         setSubmitting(false);
         const { token = "122334", user } = response.data;
         localStorage.setItem("auth", JSON.stringify({ user, token }));
-        navigate(`/home`);
+        navigate(`/${user.isAdmin ? "admin" : "user"}/home`);
       })
       .catch((error) => {
         const e = formattedErrorMessage(error);
@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return user ? (
-    <Navigate to={"/home"} replace />
+    <Navigate to={`/${user.isAdmin ? "admin" : "user"}/home`} replace />
   ) : (
     <Flex pos="fixed" top="0" left="0" right="0" bottom="0" zIndex={2}>
       <Link to="/">

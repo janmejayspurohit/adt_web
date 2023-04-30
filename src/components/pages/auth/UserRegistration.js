@@ -14,7 +14,6 @@ const UserRegistration = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const toast = useCustomToastr();
-  const [verified, setVerified] = useState(false);
 
   const registrationFormSchema = Yup.object().shape({
     email: Yup.string().min(2, "Too Short!").required("Required"),
@@ -48,7 +47,7 @@ const UserRegistration = () => {
   };
 
   return user ? (
-    <Navigate to={`/home`} replace />
+    <Navigate to={`/${user.isAdmin ? "admin" : "user"}/home`} replace />
   ) : (
     <Flex pos="fixed" top="0" left="0" right="0" bottom="0" zIndex={2}>
       <Link to="/">

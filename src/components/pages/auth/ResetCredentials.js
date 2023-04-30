@@ -7,8 +7,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { formattedErrorMessage } from "../../../utils/formattedErrorMessage";
 import { useAuth } from "../../../services/auth";
 import useCustomToastr from "../../../utils/useCustomToastr";
-// import { REQUEST_RESET, RESET_PASSWORD } from "../../../constants/apiRoutes";
 import api from "../../../services/api";
+import { RESET_PASSWORD } from "../../../constants/apiRoutes";
 
 const ResetCredentials = () => {
   const { user } = useAuth();
@@ -18,69 +18,57 @@ const ResetCredentials = () => {
   const [resetDetails, setResetDetails] = React.useState({});
 
   const requestResetFormSchema = Yup.object().shape({
-    user_id: Yup.string().min(2, "Too Short!").required("Required"),
+    email: Yup.string().min(2, "Too Short!").required("Required"),
   });
 
   const resetRequestFormSchema = Yup.object().shape({
-    user_password: Yup.string().min(2, "Too Short!").required("Required"),
+    userPassword: Yup.string().min(2, "Too Short!").required("Required"),
     confirmPassword: Yup.string().min(2, "Too Short!").required("Required"),
-    reset_code: Yup.string().min(2, "Too Short!").required("Required"),
+    resetCode: Yup.string().min(2, "Too Short!").required("Required"),
   });
 
   const initialValues = {
-    user_id: "",
+    email: "",
   };
 
   const initialResetValues = {
-    user_password: "",
+    userPassword: "",
     confirmPassword: "",
-    reset_code: "",
+    resetCode: "",
   };
 
-  const onRequestSubmit = (values, { setSubmitting }) => {
-    setSubmitting(true);
-    // api
-    //   .get(REQUEST_RESET + "?" + new URLSearchParams(values))
-    //   .then((response) => {
-    //     setResetDetails({ user_id: values.user_id });
-    //     toast.showSuccess("Reset code sent to mail successfully!");
-    //     setIsReset(true);
-    //     setSubmitting(false);
-    //   })
-    //   .catch((error) => {
-    //     const e = formattedErrorMessage(error);
-    //     toast.showError(e);
-    //     setSubmitting(false);
-    //   });
+  const onRequestSubmit = (values) => {
+    setResetDetails({ email: values.email });
+    toast.showSuccess("Reset code sent to mail successfully! (123456 for dev)");
+    setIsReset(true);
   };
 
   const onResetSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
-    if (values.user_password != values.confirmPassword) {
+    if (values.userPassword != values.confirmPassword) {
       setSubmitting(false);
       return toast.showError({ description: "Please enter the same password!" });
     }
-    // api
-    //   .post(RESET_PASSWORD + "?" + new URLSearchParams(resetDetails), {
-    //     user_password: values.user_password,
-    //     reset_code: values.reset_code,
-    //     updated_at: new Date(),
-    //   })
-    //   .then((response) => {
-    //     toast.showSuccess("Reset successfully!");
-    //     setIsReset(true);
-    //     setSubmitting(false);
-    //     navigate("/login");
-    //   })
-    //   .catch((error) => {
-    //     const e = formattedErrorMessage(error);
-    //     toast.showError(e);
-    //     setSubmitting(false);
-    //   });
+    api
+      .post(RESET_PASSWORD, {
+        email: resetDetails.email,
+        newPassword: values.userPassword,
+      })
+      .then((response) => {
+        toast.showSuccess("Reset successfully!");
+        setIsReset(true);
+        setSubmitting(false);
+        navigate("/login");
+      })
+      .catch((error) => {
+        const e = formattedErrorMessage(error);
+        toast.showError(e);
+        setSubmitting(false);
+      });
   };
 
   return user ? (
-    <Navigate to={`/home`} replace />
+    <Navigate to={`/${user.isAdmin ? "admin" : "user"}/home`} replace />
   ) : (
     <Flex pos="fixed" top="0" left="0" right="0" bottom="0" zIndex={2}>
       <Link to="/">
@@ -113,8 +101,8 @@ const ResetCredentials = () => {
               {(props) => (
                 <Form autoComplete="off">
                   <Stack mx="3" spacing={5}>
-                    <InputField isInline={false} direction="column" label="Reset Code" name="reset_code" isRequired />
-                    <PasswordField isInline={false} direction="column" label="Password" name="user_password" isRequired />
+                    <InputField isInline={false} direction="column" label="Reset Code" name="resetCode" isRequired />
+                    <PasswordField isInline={false} direction="column" label="Password" name="userPassword" isRequired />
                     <PasswordField isInline={false} direction="column" label="Confirm Password" name="confirmPassword" isRequired />
                     {/* submit button */}
                     <Button colorScheme="green" type="submit" isLoading={props.isSubmitting}>
@@ -140,7 +128,7 @@ const ResetCredentials = () => {
               {(props) => (
                 <Form autoComplete="off">
                   <Stack mx="3" spacing={5}>
-                    <InputField isInline={false} direction="column" label="Email" name="user_id" isRequired {...props} />
+                    <InputField isInline={false} direction="column" label="Email" name="email" isRequired {...props} />
                     {/* submit button */}
                     <Button colorScheme="green" type="submit" isLoading={props.isSubmitting}>
                       Reset Credentials

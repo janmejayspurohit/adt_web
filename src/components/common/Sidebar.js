@@ -4,6 +4,8 @@ import menu from "../../constants/menu";
 import { Link } from "react-router-dom";
 import { useAuth, useLogout } from "../../services/auth";
 import { BiLogOut } from "react-icons/bi";
+import { ImUsers } from "react-icons/im";
+import { AiOutlineDatabase } from "react-icons/ai";
 
 function Sidebar(props) {
   const { isExpanded } = props;
@@ -40,7 +42,7 @@ function Sidebar(props) {
     <>
       {menu.map((m) => (
         <React.Fragment key={m.link}>
-          <Link to={m.link}>
+          <Link to={`/${user.isAdmin ? "admin" : "user"}${m.link}`}>
             <Entry link={m.link} name={m.name}>
               {m.icon}
               {isExpanded && m.name}
@@ -48,7 +50,29 @@ function Sidebar(props) {
           </Link>
         </React.Fragment>
       ))}
-      <Box position="absolute" bottom="0" w={isExpanded ? "9%" : "2%"}>
+      {user.isAdmin &&
+        [
+          {
+            name: "Manage Users",
+            link: "/manage-users",
+            icon: <ImUsers color="white" />,
+          },
+          {
+            name: "Add Data",
+            link: "/add-data",
+            icon: <AiOutlineDatabase color="white" />,
+          },
+        ].map((m) => (
+          <React.Fragment key={m.link}>
+            <Link to={`/${user.isAdmin ? "admin" : "user"}${m.link}`}>
+              <Entry link={m.link} name={m.name}>
+                {m.icon}
+                {isExpanded && m.name}
+              </Entry>
+            </Link>
+          </React.Fragment>
+        ))}
+      <Box position="absolute" bottom="0" w={isExpanded ? "11%" : "3%"}>
         <Divider />
         <Entry onClick={() => logout()} name={"Logout"}>
           <BiLogOut />

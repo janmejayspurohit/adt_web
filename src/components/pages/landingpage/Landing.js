@@ -8,7 +8,7 @@ const Landing = () => {
   const { user } = useAuth();
 
   return user ? (
-    <Navigate to={`/home`} replace />
+    <Navigate to={`/${user.isAdmin ? "admin" : "user"}/home`} replace />
   ) : (
     <Flex>
       <Box>

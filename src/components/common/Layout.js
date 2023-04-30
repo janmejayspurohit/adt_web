@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
 
   return (
     <Flex flexDirection={["column", "column", "row", "row"]} w="100%" minH="100vh">
-      <Box bg="primary" display={["none", "none", "block", "block"]} w={isExpanded ? "10%" : "3%"} pl={[0, 0, 0, 1]} pr={1}>
+      <Box bg="primary" display={["none", "none", "block", "block"]} w={isExpanded ? "12%" : "4%"} pl={[0, 0, 0, 1]} pr={1}>
         <Flex
           position="relative"
           top="0"
@@ -31,9 +31,11 @@ const Layout = ({ children }) => {
         </Flex>
         <Sidebar isExpanded={isExpanded} />
       </Box>
-      <Box display="block" bg={color} w={isExpanded ? ["100%", "100%", "90%", "90%"] : ["100%", "100%", "97%", "97%"]} p="4">
+      <Box display="block" bg={color} w={isExpanded ? ["100%", "100%", "88%", "88%"] : ["100%", "100%", "96%", "96%"]} p="4">
         <Flex justify="flex-end" align="center" mb="4">
-          <Text>{user?.firstName || "Guest"}</Text>
+          <Text>
+            Name: {user?.firstName || "Guest"} | Role: {user?.isAdmin ? "Admin" : "User"}
+          </Text>
           <Button ml="6" onClick={toggleColorMode}>
             {colorMode === "light" ? <MdDarkMode /> : <MdLightMode />}
           </Button>
