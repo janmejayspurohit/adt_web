@@ -33,7 +33,7 @@ const SalesByCountryReport = () => {
     <Layout>
       <VStack>
         <Text fontWeight={"bold"} fontSize="32px">
-          Order Count Report
+          Sales by Country Report
         </Text>
         {loading ? (
           <Spinner />

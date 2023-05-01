@@ -93,7 +93,7 @@ const DataManagement = () => {
                 <NumberField isInline={false} direction="column" label="Sales" name="sales" isRequired />
                 {/* submit button */}
                 <Button colorScheme="green" type="submit" isLoading={props.isSubmitting}>
-                  Add user
+                  Submit
                 </Button>
               </Stack>
             </Form>
