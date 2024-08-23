@@ -1,6 +1,6 @@
 # SHAKTI HEROES_web
 
-## This is the web app for the SHAKTI HEROES project for our course B565 at Indiana University.
+## This is the web app for the team SHAKTI HEROES project for our course Applied Databasse Technologies at Indiana University.
 
 ## Getting started
 
@@ -14,6 +14,4 @@ yarn start
 ## Team Members
 
 - [Janmejay Purohit](https://github.iu.edu/jpurohit)
-- Jake
-- Keerthana
-- Bhanu
+- Hemeshwar Konduru
